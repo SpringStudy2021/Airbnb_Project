@@ -12,3 +12,5 @@ about: Suggest a idea of the feature for this project
 ### Detail
 
 *(Write here)*
+- [] write list here      
+- [] 
