@@ -20,3 +20,6 @@ chore: extra work without code change
 refcator: refactoring production code, only code change
 test : all about tests
 ```
+   
+### ERD 
+<img width="378" alt="스크린샷 2021-08-05 오후 6 12 46" src="https://user-images.githubusercontent.com/52744390/128324780-4cb0a19f-4ae8-40de-b27b-c892be44fe47.png">
