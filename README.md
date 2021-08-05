@@ -2,6 +2,9 @@
 ### Implement Airbnb Microservice using SpringBoot
 
 ## Our Rule
+### Issue
+Issue 올릴때, 오른쪽 Assign, Label, Project 최대한 check하기 (좀 있어보이는 것 같아서..ㅎ)
+
 ### Pull Request
 1. Pull Request 하기 전, 코드리뷰를 해줄 사람들을 지정한다.(최소 2명)
 2. 본인이 해결한 Issue들을 체크한다.
