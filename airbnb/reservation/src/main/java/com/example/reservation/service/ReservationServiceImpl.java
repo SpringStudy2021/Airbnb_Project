@@ -2,13 +2,15 @@ package com.example.reservation.service;
 
 import com.example.reservation.persistence.Reservation;
 import com.example.reservation.persistence.ReservationRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationServiceInterface{
 
-    private ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
 //    payment 마이크로서비스에 대한 의존성 추가
 
     @Override

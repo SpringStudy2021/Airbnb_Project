@@ -1,6 +1,5 @@
-package com.example.reservation;
+package com.example.reservation.controller;
 
-import com.example.reservation.persistence.ReservationRepository;
 import com.example.reservation.service.ReservationServiceInterface;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,15 +14,17 @@ public class ReservationController {
 
 //    컨트롤러는 외부에서 에약 서비스로 접근하는 모든 API에 대해 핸들링한다.
 //    policy Handle와 다른 느낌
-    ReservationServiceInterface reservationServiceInterface;
+    ReservationServiceInterface  reservationServiceInterface;
 
     @PostMapping("/reserve/{id}")
     public void reserve(@PathVariable("id") Long rvId){
+
         reservationServiceInterface.reserve(rvId);
     }
 
     @PostMapping("/cancel/{id}")
     public void cancel(@PathVariable("id") Long rvId){
+
         reservationServiceInterface.cancel(rvId);
     }
 
