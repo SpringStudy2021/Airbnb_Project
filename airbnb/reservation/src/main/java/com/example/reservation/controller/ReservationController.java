@@ -1,11 +1,15 @@
 package com.example.reservation.controller;
 
+import com.example.reservation.dto.ReservationDto;
 import com.example.reservation.service.ReservationServiceInterface;
+import com.example.reservation.vo.RequestReservation;
+import com.example.reservation.vo.ResponseReservation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,17 +20,23 @@ public class ReservationController {
 //    policy Handle와 다른 느낌
     ReservationServiceInterface  reservationServiceInterface;
 
-    @PostMapping("/reserve/{id}")
-    public void reserve(@PathVariable("id") Long rvId){
+    @PostMapping("/reserve")
+    public ResponseEntity<ResponseReservation> reserve(@RequestBody RequestReservation requestReservation){
 
-        reservationServiceInterface.reserve(rvId);
+        ReservationDto reservationDto = new ModelMapper().map(requestReservation,ReservationDto.class);
+
+        ResponseReservation responseReservation = reservationServiceInterface.reserve(reservationDto);
+
+//        보통 데이터 생성의 정상적인 응답은 201이므로 다음과 같은 response entity를 호출해준다.
+        return new ResponseEntity(responseReservation, HttpStatus.CREATED);
+
     }
 
-    @PostMapping("/cancel/{id}")
-    public void cancel(@PathVariable("id") Long rvId){
-
-        reservationServiceInterface.cancel(rvId);
-    }
+//    @PostMapping("/cancel/{id}")
+//    public void cancel(@PathVariable("id") Long rvId){
+//
+//        reservationServiceInterface.cancel(rvId);
+//    }
 
 //    현재 방예약상태를 보여주는 api제공해줘야 되지않나?
 //    날짜와 방번호를 받아서 해당 예약에대한 status를 확인
