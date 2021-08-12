@@ -32,16 +32,16 @@ public class ReservationServiceImpl implements ReservationServiceInterface {
     public ResponseReservation reserve(ReservationDto reservationDto) {
 
         ReservationCreated reservationCreated = new ModelMapper().map(reservationDto,ReservationCreated.class);
-//        reservationCreated 이벤트를 발행하여 해당 이벤트를 통해 동기호출을 한다.
+
+        //        reservationCreated 이벤트를 발행하여 해당 이벤트를 통해 동기호출을 한다.
         //        reservation Dto 에 rvId와 생성날짜(자동) 상태를 초기화해준다.
-//        동기호출을 통해 정상적으로 결제승인메소드를 받으면 (TRUE) 저장하기 PAYID아직 모르는 상태
+        //        동기호출을 통해 정상적으로 결제승인메소드를 받으면 (TRUE) 저장하기 PAYID아직 모르는 상태
+
         Reservation reservation = new ModelMapper().map(reservationDto,Reservation.class);
         reservationRepository.save(reservation);
 
         ResponseReservation responseReservation = new ModelMapper().map(reservation,ResponseReservation.class);
         return  responseReservation;
-
-
 
 
 //       Reservation의 payId는 paymentApproved 이벤트가 발생했을때 reservation이

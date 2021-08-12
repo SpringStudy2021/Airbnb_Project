@@ -9,6 +9,4 @@ public class ReservationCreated {
     private int rvId;
     private int price;
 
-
-
 }

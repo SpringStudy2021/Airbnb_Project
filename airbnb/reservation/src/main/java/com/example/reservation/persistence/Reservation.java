@@ -3,6 +3,7 @@ package com.example.reservation.persistence;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,10 +25,12 @@ public class Reservation {
     private String status;
 
     private int payId;
+// 없어도 될듯?!
 
     @Column(nullable = false)
     private int price;
 
+//    @ColumnDefault()
     private Date createdDate;
 //    예약생성시간(자동설정초기화)
     @Column(nullable = false)

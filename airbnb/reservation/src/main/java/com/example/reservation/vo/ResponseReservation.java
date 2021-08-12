@@ -13,6 +13,13 @@ public class ResponseReservation {
 
     private int payId;
 
+    private int numOfPeople;
+
+    private int price;
+
+    private String startDate;
+    //  예약날짜(시작)
+    private String endDate;
 
 
 }
