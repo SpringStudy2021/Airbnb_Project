@@ -1,0 +1,20 @@
+server:
+  port: 8083
+
+spring:
+  cloud:
+    stream:
+      bindings:
+        room-event-in:
+          destination: room-event
+          group: consumer-group-1
+        room-event-out:
+          destination: review-event
+          group: consumer-group-1
+      kafka:
+        binder:
+          brokers: localhost:9093
+          configuration:
+            auto.offset.reset: earliest
+            key.deserialize: org.apache.kafka.common.serialization.StringDeserializer
+            value.deserialize: org.apache.kafka.common.serialization.StringDeserializer
