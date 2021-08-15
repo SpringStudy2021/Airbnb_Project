@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,6 +38,7 @@ public class Review {
     @Column(name = "score",nullable = false)
     private Double score;
 
+    @CreatedDate
     @Column(name = "commentDate",nullable = false)
     private LocalDateTime commentDate;
 }
