@@ -7,11 +7,11 @@ import java.util.Date;
 @Data
 public class RequestReservation {
 
-    private int roomId;
+    private Integer roomId;
 
-    private int numOfPeople;
+    private Integer numOfPeople;
 
-    private int price;
+    private Integer price;
 
     private String startDate;
 //  예약날짜(시작)

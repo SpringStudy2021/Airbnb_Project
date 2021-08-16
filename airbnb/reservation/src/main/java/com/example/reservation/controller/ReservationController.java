@@ -7,27 +7,33 @@ import com.example.reservation.vo.ResponseReservation;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequiredArgsConstructor
-@RequestMapping("/reservation")
+@RequestMapping("/reservation-service")
 public class ReservationController {
 
 //    컨트롤러는 외부에서 에약 서비스로 접근하는 모든 API에 대해 핸들링한다.
 //    policy Handle와 다른 느낌
     ReservationServiceInterface  reservationServiceInterface;
 
+    @Autowired
+    public ReservationController(ReservationServiceInterface reservationServiceInterface) {
+        this.reservationServiceInterface = reservationServiceInterface;
+    }
+
     @PostMapping("/reserve")
     public ResponseEntity<ResponseReservation> reserve(@RequestBody RequestReservation requestReservation){
 
         ReservationDto reservationDto = new ModelMapper().map(requestReservation,ReservationDto.class);
-
+//        지금은 Dto에 setter로 reserving 상태로 넣어주는데,
+//        생성자를 통해 자동 reserving되는걸로 추후에 수정하기
+        reservationDto.setStatus("reserving");
         ResponseReservation responseReservation = reservationServiceInterface.reserve(reservationDto);
 
-//        보통 데이터 생성의 정상적인 응답은 201이므로 다음과 같은 response entity를 호출해준다.
         return new ResponseEntity(responseReservation, HttpStatus.CREATED);
 
     }

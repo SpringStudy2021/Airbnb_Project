@@ -6,7 +6,9 @@ import com.example.reservation.persistence.Reservation;
 import com.example.reservation.persistence.ReservationRepository;
 import com.example.reservation.vo.ResponseReservation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 
 @Service
+@Slf4j
 public class ReservationServiceImpl implements ReservationServiceInterface {
 
 
@@ -34,15 +37,19 @@ public class ReservationServiceImpl implements ReservationServiceInterface {
         ReservationCreated reservationCreated = new ModelMapper().map(reservationDto,ReservationCreated.class);
 
         //        reservationCreated 이벤트를 발행하여 해당 이벤트를 통해 동기호출을 한다.
-        //        reservation Dto 에 rvId와 생성날짜(자동) 상태를 초기화해준다.
         //        동기호출을 통해 정상적으로 결제승인메소드를 받으면 (TRUE) 저장하기 PAYID아직 모르는 상태
 
-        Reservation reservation = new ModelMapper().map(reservationDto,Reservation.class);
+        ModelMapper mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
+        Reservation reservation = mapper.map(reservationDto,Reservation.class);
+
+        System.out.println(reservation.toString());
         reservationRepository.save(reservation);
 
         ResponseReservation responseReservation = new ModelMapper().map(reservation,ResponseReservation.class);
+        System.out.println(responseReservation);
         return  responseReservation;
-
 
 //       Reservation의 payId는 paymentApproved 이벤트가 발생했을때 reservation이
 //       이 이벤트를 받고 거기에있는 payid를 rvId를 통해 찾은 reservation에 저장한다.

@@ -2,24 +2,27 @@ package com.example.reservation.vo;
 
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 public class ResponseReservation {
 
-    private int rvId;
+    private Long id;
 
-    private int roomId;
+    private Integer roomId;
 
     private String status;
 
-    private int payId;
+    private Integer numOfPeople;
 
-    private int numOfPeople;
+    private Integer price;
 
-    private int price;
+    private Date createdDate;
 
     private String startDate;
     //  예약날짜(시작)
     private String endDate;
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.example.reservation.persistence;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -8,43 +9,40 @@ import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
+
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Entity
 public class Reservation {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int rvId;
-//    이거 UUID로 부여할 수 있게끔 할 수 없나 자동으로?
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
-    private int roomId;
+    private Integer roomId;
+
+    private Integer payId;
 
     @Column(nullable = false)
     private String status;
 
-    private int payId;
-// 없어도 될듯?!
+    private Integer price;
 
-    @Column(nullable = false)
-    private int price;
-
-//    @ColumnDefault()
+    @Column(nullable = false, updatable = false, insertable = false)
+    @ColumnDefault(value = "CURRENT_TIMESTAMP")
     private Date createdDate;
-//    예약생성시간(자동설정초기화)
-    @Column(nullable = false)
+    //    예약생성시간(자동설정초기화)
+
+    @Column(nullable = false, updatable = false)
     private String startDate;
 //  예약날짜(시작)
-    @Column(nullable = false)
+
+    @Column(nullable = false, updatable = false)
     private String endDate;
 //  예약날짜(종료)
 
 
-//    public Reservation(int rvId, int roomId,String status, int payId){
-//        this.rvId = rvId;
-//        this.roomId = roomId;
-//        this.status = status;
-//        this.payId = payId;
-//    }
+
 }
