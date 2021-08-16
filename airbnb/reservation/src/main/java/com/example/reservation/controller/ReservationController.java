@@ -30,7 +30,7 @@ public class ReservationController {
 
         ReservationDto reservationDto = new ModelMapper().map(requestReservation,ReservationDto.class);
 //        지금은 Dto에 setter로 reserving 상태로 넣어주는데,
-//        생성자를 통해 자동 reserving되는걸로 추후에 수정하기
+//        생성자를 통해 자동 reserving 되는걸로 추후에 수정하기
         reservationDto.setStatus("reserving");
         ResponseReservation responseReservation = reservationServiceInterface.reserve(reservationDto);
 
@@ -38,11 +38,13 @@ public class ReservationController {
 
     }
 
-//    @PostMapping("/cancel/{id}")
-//    public void cancel(@PathVariable("id") Long rvId){
-//
-//        reservationServiceInterface.cancel(rvId);
-//    }
+    @PostMapping("/cancel/{id}")
+    ResponseEntity<ResponseReservation> cancel(@PathVariable("id") Long id){
+
+        ResponseReservation responseReservation = reservationServiceInterface.cancel(id);
+
+        return new ResponseEntity(responseReservation, HttpStatus.OK);
+    }
 
 //    현재 방예약상태를 보여주는 api제공해줘야 되지않나?
 //    날짜와 방번호를 받아서 해당 예약에대한 status를 확인
