@@ -1,2 +1,4 @@
-package com.example.event;public class AbstractEvent {
+package com.example.event;
+
+public class AbstractEvent {
 }
