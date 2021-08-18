@@ -9,3 +9,5 @@ spring:
     password: cindia3704
   jpa:
     show-sql: true
+  jackson:
+    property-naming-strategy: SNAKE_CASE
