@@ -1,14 +1,13 @@
 package com.example.review.support.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 
-@Builder
-@NoArgsConstructor
+@Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ReviewResponse<T> {
+public class AirbnbReviewResponse<T> {
+
     private T data;
 
     private HttpStatus status;
@@ -17,16 +16,25 @@ public class ReviewResponse<T> {
 
     private int resultCode;
 
+    public AirbnbReviewResponse(){}
+
     // successful일때 data & description만 받아서 만듬
-    public ReviewResponse(T data, String description){
+    public AirbnbReviewResponse(T data, String description){
         this.data = data;
         this.status = HttpStatus.OK;
         this.resultCode = 200;
         this.description = description;
     }
 
+    // successful 일때 -> description만 받아서!
+    public AirbnbReviewResponse(String description){
+        this.status = HttpStatus.OK;
+        this.resultCode = status.value();
+        this.description = description;
+    }
+
     // 일반적 response
-    public ReviewResponse(T data,HttpStatus status,String description){
+    public AirbnbReviewResponse(T data, HttpStatus status, String description){
         this.data = data;
         this.status = status;
         this.resultCode = status.value();
@@ -34,7 +42,7 @@ public class ReviewResponse<T> {
     }
 
     //data 전달할거 없을 때
-    public ReviewResponse(HttpStatus status,String description){
+    public AirbnbReviewResponse(HttpStatus status, String description){
         this.status = status;
         this.resultCode= status.value();;
         this.description = description;
