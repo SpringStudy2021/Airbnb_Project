@@ -1,7 +1,11 @@
 package com.example.reservation.vo;
 
+import com.example.reservation.persistence.Reservation;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -11,17 +15,19 @@ public class ResponseReservation {
 
     private Integer roomId;
 
-    private String status;
+    private Reservation.Status status;
 
     private Integer numOfPeople;
 
     private Integer price;
 
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
-    private String startDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd ", timezone = "Asia/Seoul")
+    private LocalDate startDate;
     //  예약날짜(시작)
-    private String endDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+    private LocalDate endDate;
 
 
 

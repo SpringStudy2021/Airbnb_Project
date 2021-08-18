@@ -46,6 +46,7 @@ public class ReservationServiceImpl implements ReservationServiceInterface {
         Reservation reservation = mapper.map(reservationDto,Reservation.class);
 
         reservationRepository.save(reservation);
+        log.debug(reservation.toString());
         ResponseReservation responseReservation = new ModelMapper().map(reservation,ResponseReservation.class);
 
         return  responseReservation;
