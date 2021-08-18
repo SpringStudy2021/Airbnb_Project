@@ -1,6 +1,7 @@
 package com.example.reservation.controller;
 
 import com.example.reservation.dto.ReservationDto;
+import com.example.reservation.persistence.Reservation;
 import com.example.reservation.service.ReservationServiceInterface;
 import com.example.reservation.vo.RequestReservation;
 import com.example.reservation.vo.ResponseReservation;
@@ -31,7 +32,8 @@ public class ReservationController {
         ReservationDto reservationDto = new ModelMapper().map(requestReservation,ReservationDto.class);
 //        지금은 Dto에 setter로 reserving 상태로 넣어주는데,
 //        생성자를 통해 자동 reserving 되는걸로 추후에 수정하기
-        reservationDto.setStatus("reserving");
+        Reservation.Status status = Reservation.Status.RESERVING;
+        reservationDto.setStatus(status);
         ResponseReservation responseReservation = reservationServiceInterface.reserve(reservationDto);
 
         return new ResponseEntity(responseReservation, HttpStatus.CREATED);

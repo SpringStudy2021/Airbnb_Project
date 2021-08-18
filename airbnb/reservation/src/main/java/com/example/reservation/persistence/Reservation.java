@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -14,35 +16,38 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Entity
-public class Reservation {
+public class Reservation extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private Integer roomId;
+    private Long roomId;
 
-    private Integer payId;
+    private Long payId;
+
+    public enum Status{
+        RESERVING, RESERVED;
+    }
 
     @Column(nullable = false)
-    private String status;
+    private Integer numOfPeople;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+// 성능상 Enumerated 어노테이션의 사용은 좋지않음
+//  추후에 통합할때  EnumMapperFactory를 사용하여
 
     private Integer price;
 
-    @Column(nullable = false, updatable = false, insertable = false)
-    @ColumnDefault(value = "CURRENT_TIMESTAMP")
-    private Date createdDate;
-    //    예약생성시간(자동설정초기화)
-
-    @Column(nullable = false, updatable = false)
-    private String startDate;
+    @Column(nullable = false, updatable = true)
+    private LocalDate startDate;
 //  예약날짜(시작)
 
-    @Column(nullable = false, updatable = false)
-    private String endDate;
+    @Column(nullable = false, updatable = true)
+    private LocalDate endDate;
 //  예약날짜(종료)
-
-
 
 }
