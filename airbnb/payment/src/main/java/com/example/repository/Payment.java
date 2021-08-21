@@ -1,6 +1,7 @@
 package com.example.repository;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
@@ -10,39 +11,38 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Table
 public class Payment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
 
-    @Column(nullable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long payId;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
+
     private Long roomId;
 
-    @Column(nullable = false)
-    private Long rsvID;
+    private Long rsvId;
 
-    @Column(nullable = false)
     private Long price;
 
-    @Column(nullable = false)
-    private String status;
-
-    @Column(nullable = false)
-    private Long lengthOfStay;
+    private Long length;
 
     private Date startDate;
 
     private Date endDate;
 
-    public void wholePrice(){ //reservation에서 전체 결제금액을
-        //정의하지 않았을 때 payment에서 price를 예약 일수만큼 재정의 하고 저장
+
+    public void wholePrice(){ //reservation에서 전체 결제금액을 정의하지 않았을 때 payment에서 price를 예약 일수만큼 재정의 하고 저장
         Long diffDays = startDate.getTime() - endDate.getTime();
         this.price = diffDays * price;
-        this.lengthOfStay = diffDays;
+        this.length = diffDays;
     }
 
 }

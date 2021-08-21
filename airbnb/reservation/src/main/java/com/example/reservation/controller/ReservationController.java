@@ -18,7 +18,7 @@ public class ReservationController {
 
 //    컨트롤러는 외부에서 에약 서비스로 접근하는 모든 API에 대해 핸들링한다.
 //    policy Handle와 다른 느낌
-    ReservationServiceInterface  reservationServiceInterface;
+    ReservationServiceInterface reservationServiceInterface;
 
     @PostMapping("/reserve")
     public ResponseEntity<ResponseReservation> reserve(@RequestBody RequestReservation requestReservation){
