@@ -40,7 +40,8 @@ public class KafkaConsumer {
             ex.printStackTrace();
         }
 
-        Optional<Reservation> reservationOptional = repository.findById( (Long) map.get("rvId") );
+        Long tempRvId = ((Number)map.get("rvId") ).longValue();
+        Optional<Reservation> reservationOptional = repository.findById( tempRvId);
         if (reservationOptional.isPresent()) {
             Reservation reservation = reservationOptional.get();
             reservation.setStatus(Status.RESERVED);
@@ -71,7 +72,8 @@ public class KafkaConsumer {
         }catch (JsonProcessingException ex ){
             ex.printStackTrace();
         }
-        Optional<Reservation> reservationOptional = repository.findById( (Long) map.get("rvId") );
+        Long tempRvId = ((Number)map.get("rvId") ).longValue();
+        Optional<Reservation> reservationOptional = repository.findById(tempRvId);
         if (reservationOptional.isPresent()) {
             repository.delete(reservationOptional.get());
         }

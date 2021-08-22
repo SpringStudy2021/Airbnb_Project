@@ -1,6 +1,7 @@
 package com.example.reservation.vo;
 
 import com.example.reservation.persistence.Reservation;
+import com.example.reservation.persistence.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public class ResponseReservation {
 
     private Integer roomId;
 
-    private Reservation.Status status;
+    private Status status;
 
     private Integer numOfPeople;
 
