@@ -22,3 +22,11 @@ spring:
     ddl-auto: create-drop
     show-sql: true
     defer-datasource-initialization: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: myGroup
+      enable-auto-commit: false
+      auto-offset-reset: latest
+    listener:
+      ack-mode: manual
