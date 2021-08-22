@@ -1,12 +1,12 @@
 package com.example.reservation.service;
 
 import com.example.reservation.dto.ReservationDto;
-import com.example.reservation.event.ReservationCanceled;
+import com.example.reservation.event.ReservationCancelled;
 import com.example.reservation.event.ReservationCreated;
+import com.example.reservation.messagequeue.KafkaProducer;
 import com.example.reservation.persistence.Reservation;
 import com.example.reservation.persistence.ReservationRepository;
 import com.example.reservation.vo.ResponseReservation;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.UUID;
-import java.util.regex.Matcher;
 
 @Service
 @Slf4j
@@ -24,12 +22,14 @@ public class ReservationServiceImpl implements ReservationServiceInterface {
 
 
     private final ReservationRepository reservationRepository;
-//    payment 마이크로서비스에 대한 의존성 추가
+    private final KafkaProducer kafkaProducer;
+    //    payment 마이크로서비스에 대한 의존성 추가
 
 
     @Autowired
-    public ReservationServiceImpl(ReservationRepository reservationRepository) {
+    public ReservationServiceImpl(ReservationRepository reservationRepository , KafkaProducer kafkaProducer) {
         this.reservationRepository = reservationRepository;
+        this.kafkaProducer = kafkaProducer;
     }
 
     @Override
@@ -64,10 +64,14 @@ public class ReservationServiceImpl implements ReservationServiceInterface {
 
         if (reservationOptional.isPresent()){
             Reservation reservation = reservationOptional.get();
-            ReservationCanceled reservationCanceled = new ModelMapper().map(reservation,ReservationCanceled.class);
-//            예약취소이벤트 발행하고 Payment의 cancel메소드를 비동기호출한다.
-//            추후 결제취소 이벤트를 발행받으면 해당 예약 레코드를 최종삭제한다.
+            ReservationCancelled reservationCancelled = new ModelMapper().map(reservation, ReservationCancelled.class);
+
+//          발행한 예약취소이벤트를 kafkaProducer가 메세지 큐에 보낸다.
+            kafkaProducer.send("ReservationCancelled", reservationCancelled);
+            log.info("Kafka Producer send to topics(ReservationCancelled)" + reservationCancelled );
+
             ResponseReservation responseReservation = new ModelMapper().map(reservation,ResponseReservation.class);
+
             return  responseReservation;
         }
 
