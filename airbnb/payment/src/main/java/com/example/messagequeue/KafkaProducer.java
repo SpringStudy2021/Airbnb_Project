@@ -1,7 +1,8 @@
 package com.example.messagequeue;
 
 
-import com.example.reservation.event.ReservationCancelled;
+import com.example.event.AbstractPaymentEvent;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,20 +21,20 @@ public class KafkaProducer {
     }
 
 
-    public ReservationCancelled send(String topic, ReservationCancelled reservationCancelled) {
+    public AbstractPaymentEvent send(String topic, AbstractPaymentEvent abstractPaymentEvent) {
         ObjectMapper mapper = new ObjectMapper();
         String jsonInString = "";
         try{
-            jsonInString = mapper.writeValueAsString(reservationCancelled);
+            jsonInString = mapper.writeValueAsString(abstractPaymentEvent);
 
         }catch (JsonProcessingException ex){
             ex.printStackTrace();
 
         }
         kafkaTemplate.send(topic, jsonInString);
-        log.info("Kafka Producer send " + reservationCancelled);
+        log.info("Kafka Producer send " + abstractPaymentEvent);
 
-        return reservationCancelled;
+        return abstractPaymentEvent;
     }
 
 }
