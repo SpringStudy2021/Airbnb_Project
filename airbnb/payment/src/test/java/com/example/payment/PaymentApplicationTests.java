@@ -36,14 +36,15 @@ class PaymentApplicationTests {
         System.out.println(paymentApproved.toString());
         System.out.println(paymentService.paymentApproved().toString());
     }
-    @Test
-    void controller() throws IOException {
-        this.paymentService = new PaymentService();
-        this.payment = paymentService.paymentApproved();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(new File("payment.json"), payment);
-        System.out.println(payment.toString());
-    }
+        //    }
+//    @Test
+//    void controller() throws IOException {
+//        this.paymentService = new PaymentService();
+//        this.payment = paymentService.paymentApproved();
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.writeValue(new File("payment.json"), payment);
+//        System.out.println(payment.toString());
+//    }
 
     @Test
     void save(){

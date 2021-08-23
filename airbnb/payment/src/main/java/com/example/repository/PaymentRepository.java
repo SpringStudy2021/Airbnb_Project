@@ -11,5 +11,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Override
     <S extends Payment> S save(S entity);
 
-    Payment findPaymentById(Long payId);
+    Optional<Payment> findPaymentByPayId(Long payId);
+    Optional<Payment> findPaymentByRvId(Long rvId);
 }
