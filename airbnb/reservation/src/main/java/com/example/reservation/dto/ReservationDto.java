@@ -15,6 +15,8 @@ public class ReservationDto {
 
     private Long roomId;
 
+    private Long payId;
+
     private Reservation.Status status;
 
     private Integer numOfPeople;
