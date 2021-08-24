@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class RequestPayment {
 
-    private Long id;
+//    추후에 id 다 rvId로 바꿀 예정
+    private Long rvId;
     private Long price;
 }

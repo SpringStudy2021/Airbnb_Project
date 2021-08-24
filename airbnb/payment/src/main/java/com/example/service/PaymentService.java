@@ -47,12 +47,10 @@ public class PaymentService {
         //바로 paymentCancelled의 payId에 매핑해서 메서드를 실행할 수 있을까?
 
 
+    @Transactional
     public Long approvePayment(RequestPayment requestPayment){
 
-        Payment payment = new Payment();
-        payment.setRvId(requestPayment.getId());
-        payment.setPrice(requestPayment.getPrice());
-//        Payment payment = new ObjectMapper().convertValue(requestPayment, Payment.class);
+        Payment payment = new ObjectMapper().convertValue(requestPayment, Payment.class);
         Payment resultPayment = paymentRepository.save(payment);
         PaymentApproved paymentApproved= new ObjectMapper()
                 .convertValue(payment, PaymentApproved.class);
@@ -62,6 +60,7 @@ public class PaymentService {
     }
 
     //결제 취소되었을 때 -> status가 'payment cancelled'인 PaymentCancelled 객체가 생성되고 입력된 payId가 있는 row를 DB에서 삭제.
+    @Transactional
     public void cancelPayment(Long payId){ //입력하는 payId에 대하여 상태를 "결제 취소됨"으로 변경
 
         Optional<Payment> paymentOptional = paymentRepository.findPaymentByPayId(payId);
