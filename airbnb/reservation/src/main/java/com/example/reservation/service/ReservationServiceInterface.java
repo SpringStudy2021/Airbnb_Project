@@ -6,5 +6,5 @@ import com.example.reservation.vo.ResponseReservation;
 public interface ReservationServiceInterface {
 
     public ResponseReservation reserve(ReservationDto reservationDto);
-    public ResponseReservation cancel(Long id);
+    public ResponseReservation cancel(Long rvId);
 }

@@ -58,9 +58,9 @@ public class ReservationServiceImpl implements ReservationServiceInterface {
 
     @Override
     @Transactional
-    public ResponseReservation cancel(Long id){
+    public ResponseReservation cancel(Long rvId){
 
-        Optional<Reservation> reservationOptional = reservationRepository.findById(id);
+        Optional<Reservation> reservationOptional = reservationRepository.findByRvId(rvId);
 
         if (reservationOptional.isPresent()){
             Reservation reservation = reservationOptional.get();

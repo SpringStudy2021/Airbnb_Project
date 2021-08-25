@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ReservationCancelled {
-    private Long id;
+    private Long rvId;
     private Long payId;
     private Integer price;
 

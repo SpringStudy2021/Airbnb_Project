@@ -20,7 +20,7 @@ public class Reservation extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+    private Long rvId;
 
     @Column(nullable = false)
     private Long roomId;

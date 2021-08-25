@@ -40,10 +40,10 @@ public class ReservationController {
 
     }
 
-    @PostMapping("/cancel/{id}")
-    ResponseEntity<ResponseReservation> cancel(@PathVariable("id") Long id){
+    @PostMapping("/cancel/{rvId}")
+    ResponseEntity<ResponseReservation> cancel(@PathVariable("rvId") Long rvId){
 
-        ResponseReservation responseReservation = reservationServiceInterface.cancel(id);
+        ResponseReservation responseReservation = reservationServiceInterface.cancel(rvId);
 
         return new ResponseEntity(responseReservation, HttpStatus.OK);
     }
