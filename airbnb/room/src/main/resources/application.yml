@@ -13,8 +13,16 @@ spring:
           group: consumer-group-1
       kafka:
         binder:
-          brokers: localhost:9093
+          brokers: localhost:9092
           configuration:
             auto.offset.reset: earliest
             key.deserialize: org.apache.kafka.common.serialization.StringDeserializer
             value.deserialize: org.apache.kafka.common.serialization.StringDeserializer
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ROOM?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: sorksnrn12
+  jpa:
+    show-sql: true

@@ -3,7 +3,9 @@ package com.example.room.processor;
 import com.example.room.aggregate.RoomService;
 import com.example.room.config.kafka.RoomBinder;
 import com.example.room.model.RoomDeleted;
+import com.example.room.util.DataFormat;
 import com.sun.xml.bind.v2.TODO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
@@ -14,8 +16,11 @@ public class MessageProducer {
     @Autowired
     private RoomBinder roomBinder;
 
+    @Autowired
+    private DataFormat dataFormat;
+
     public void sendDeleteMessage(RoomDeleted roomDeleted) {
         // TODO: roomDeleted를 json으로 보내야 (삭제된 room에대한 review삭제 처리)
-        roomBinder.output().send(MessageBuilder.withPayload("sendTest").build());
+        roomBinder.output().send(MessageBuilder.withPayload(dataFormat.objectToJson(roomDeleted)).build());
     }
 }

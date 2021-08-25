@@ -2,7 +2,9 @@ package com.example.room.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DataFormat {
     // object to json으로 바꿔주는 method
     // 후에 데이터포맷에 관한 처리에 관한 확장성 고려

@@ -1,9 +1,12 @@
 package com.example.room;
 
+import com.example.room.config.kafka.RoomBinder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 
 @SpringBootApplication
+@EnableBinding(RoomBinder.class)
 public class RoomApplication {
 
     public static void main(String[] args) {
