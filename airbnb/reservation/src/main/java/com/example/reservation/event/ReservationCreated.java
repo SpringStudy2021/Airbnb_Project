@@ -6,7 +6,7 @@ import java.util.Date;
 
 @Data
 public class ReservationCreated {
-    private Long id;
+    private Long rvId;
     private Integer price;
 
 }

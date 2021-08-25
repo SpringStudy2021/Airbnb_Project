@@ -39,21 +39,25 @@ public class ReservationServiceImpl implements ReservationServiceInterface {
     @Transactional
     public ResponseReservation reserve(ReservationDto reservationDto) {
 
-        ReservationCreated reservationCreated = new ModelMapper().map(reservationDto,ReservationCreated.class);
-
-        Long responsePayId = paymentApiClient.approvePayment(reservationCreated);
-        //        reservationCreated 이벤트를 발행하여 해당 이벤트를 통해 동기호출을 한다.
-
-        reservationDto.setPayId(responsePayId);
-        //        메소드에 대한 응답을 받고 PaymentId를 예약에 저장한다.
-
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Reservation reservation = mapper.map(reservationDto,Reservation.class);
 
-        reservationRepository.save(reservation);
-        log.debug(reservation.toString());
-        ResponseReservation responseReservation = new ModelMapper().map(reservation,ResponseReservation.class);
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        ReservationCreated reservationCreated = mapper.map(savedReservation,ReservationCreated.class);
+
+        Long responsePayId = paymentApiClient.approvePayment(reservationCreated);
+        //        reservationCreated 이벤트를 발행하여 해당 이벤트를 통해 동기호출을 한다.
+
+        savedReservation.setPayId(responsePayId);
+        //        메소드에 대한 응답을 받고 PaymentId를 예약에 저장한다.
+
+        log.debug(savedReservation.toString());
+
+        reservationRepository.save(savedReservation);
+
+        ResponseReservation responseReservation = new ModelMapper().map(savedReservation,ResponseReservation.class);
 
         return  responseReservation;
 

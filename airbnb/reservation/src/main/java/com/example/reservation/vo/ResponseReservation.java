@@ -11,7 +11,7 @@ import java.util.Date;
 @Data
 public class ResponseReservation {
 
-    private Long id;
+    private Long rvId;
 
     private Integer roomId;
 
