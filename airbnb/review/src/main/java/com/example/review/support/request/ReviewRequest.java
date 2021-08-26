@@ -1,21 +1,13 @@
-package com.example.review.model;
+package com.example.review.support.request;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
-
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Builder
-@Accessors(chain = true)
-public class HostReviewCreated {
-    private Long id;
-
+public class ReviewRequest {
     private String commentBy;
 
     private String commentTo;
@@ -23,6 +15,4 @@ public class HostReviewCreated {
     private String description;
 
     private Double score;
-
-    private LocalDateTime commentDate;
 }

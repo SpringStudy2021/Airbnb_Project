@@ -1,4 +1,4 @@
-package com.example.review.model;
+package com.example.review.domain.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +12,6 @@ import lombok.experimental.Accessors;
 @Getter
 @Builder
 @Accessors(chain = true)
-public class HostReviewDeleted {
+public class CustomerReviewDeleted {
     private Long id;
 }

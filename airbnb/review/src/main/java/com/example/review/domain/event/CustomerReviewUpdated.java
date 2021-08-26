@@ -1,26 +1,20 @@
-package com.example.review.model;
+package com.example.review.domain.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 
-@Slf4j
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 @Builder
+@Getter
 @Accessors(chain = true)
-public class RoomReviewCreated {
+public class CustomerReviewUpdated {
     private Long id;
-
-    private String commentBy;
-
-    private String commentTo;
 
     private String description;
 

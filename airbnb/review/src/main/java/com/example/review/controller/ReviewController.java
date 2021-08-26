@@ -1,22 +1,20 @@
 package com.example.review.controller;
 
 import com.example.review.aggregate.ReviewService;
-import com.example.review.model.CustomerReviewCreated;
-import com.example.review.model.HostReviewCreated;
-import com.example.review.model.Review;
-import com.example.review.model.RoomReviewCreated;
+import com.example.review.domain.event.CustomerReviewCreated;
+import com.example.review.domain.event.HostReviewCreated;
+import com.example.review.domain.event.RoomReviewCreated;
 import com.example.review.support.exception.GlobalExceptionHandler;
+import com.example.review.support.request.ReviewRequest;
 import com.example.review.support.response.AirbnbReviewResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -29,23 +27,23 @@ public class ReviewController extends GlobalExceptionHandler {
     }
 
     @PostMapping("/room")
-    public AirbnbReviewResponse createRoomReview(@RequestBody RoomReviewCreated roomReviewCreated){
+    public AirbnbReviewResponse createRoomReview(@RequestBody ReviewRequest reviewRequest){
         // TODO: 예외처리 추가 ( 사용자 있는지 확인 + 방 있는지 확인)
-        String result = reviewService.createRoomReview(roomReviewCreated);
+        String result = reviewService.createRoomReview(reviewRequest);
         return new AirbnbReviewResponse(result);
     }
 
     @PostMapping("/host")
-    public AirbnbReviewResponse createHostReview(@RequestBody HostReviewCreated hostReviewCreated){
+    public AirbnbReviewResponse createHostReview(@RequestBody ReviewRequest reviewRequest){
         // TODO: 예외처리 추가 ( 사용자 있는지 확인 host & customer )
-        String result = reviewService.createHostReview(hostReviewCreated);
+        String result = reviewService.createHostReview(reviewRequest);
         return new AirbnbReviewResponse(result);
     }
 
     @PostMapping("/customer")
-    public AirbnbReviewResponse createCustomerReview(@RequestBody CustomerReviewCreated customerReviewCreated){
+    public AirbnbReviewResponse createCustomerReview(@RequestBody ReviewRequest reviewRequest){
         // TODO: 예외처리 추가 ( 사용자 있는지 확인 host & customer )
-        String result = reviewService.createCustomerReview(customerReviewCreated);
+        String result = reviewService.createCustomerReview(reviewRequest);
         return new AirbnbReviewResponse(result);
     }
 
@@ -66,6 +64,5 @@ public class ReviewController extends GlobalExceptionHandler {
         String result = reviewService.deleteCustomerReview(id);
         return new AirbnbReviewResponse(result);
     }
-
 
 }

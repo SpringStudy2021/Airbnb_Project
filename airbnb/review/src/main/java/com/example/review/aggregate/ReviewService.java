@@ -1,12 +1,13 @@
 package com.example.review.aggregate;
 
-import com.example.review.model.CustomerReviewCreated;
-import com.example.review.model.HostReviewCreated;
-import com.example.review.model.Review;
-import com.example.review.model.RoomReviewCreated;
+import com.example.review.domain.event.CustomerReviewCreated;
+import com.example.review.domain.event.HostReviewCreated;
+import com.example.review.domain.Review;
+import com.example.review.domain.event.RoomReviewCreated;
 import com.example.review.repository.ReviewRepository;
 import com.example.review.support.error.ReviewError;
 import com.example.review.support.exception.ReviewException;
+import com.example.review.support.request.ReviewRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,22 +21,22 @@ public class ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
-    public String createRoomReview(RoomReviewCreated roomReviewCreated) {
+    public String createRoomReview(ReviewRequest reviewRequest) {
         // TODO: 예외처리
-        Review review = Review.of(roomReviewCreated.getCommentBy(),roomReviewCreated.getCommentTo(),roomReviewCreated.getDescription(),roomReviewCreated.getScore());
+        Review review = Review.of(reviewRequest.getCommentBy(),reviewRequest.getCommentTo(),reviewRequest.getDescription(),reviewRequest.getScore());
         reviewRepository.save(review);
         return "RoomReview Created";
     }
 
-    public String createHostReview(HostReviewCreated hostReviewCreated) {
+    public String createHostReview(ReviewRequest reviewRequest) {
         // TODO: 예외처리
-        Review review = Review.of(hostReviewCreated.getCommentBy(),hostReviewCreated.getCommentTo(),hostReviewCreated.getDescription(),hostReviewCreated.getScore());
+        Review review = Review.of(reviewRequest.getCommentBy(),reviewRequest.getCommentTo(),reviewRequest.getDescription(),reviewRequest.getScore());
         reviewRepository.save(review);
         return "HostReview Created";
     }
 
-    public String createCustomerReview(CustomerReviewCreated customerReviewCreated) {
-        Review review = Review.of(customerReviewCreated.getCommentBy(),customerReviewCreated.getCommentTo(),customerReviewCreated.getDescription(),customerReviewCreated.getScore());
+    public String createCustomerReview(ReviewRequest reviewRequest) {
+        Review review = Review.of(reviewRequest.getCommentBy(),reviewRequest.getCommentTo(),reviewRequest.getDescription(),reviewRequest.getScore());
         reviewRepository.save(review);
         return "HostReview Created";
     }

@@ -1,4 +1,4 @@
-package com.example.review.model;
+package com.example.review.domain.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Getter
+@Builder
 @Accessors(chain = true)
-public class CustomerReviewUpdated {
+public class RoomReviewUpdated {
     private Long id;
 
     private String description;
