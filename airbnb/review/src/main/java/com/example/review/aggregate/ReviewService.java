@@ -5,10 +5,12 @@ import com.example.review.model.HostReviewCreated;
 import com.example.review.model.Review;
 import com.example.review.model.RoomReviewCreated;
 import com.example.review.repository.ReviewRepository;
-import org.springframework.http.HttpStatus;
+import com.example.review.support.error.ReviewError;
+import com.example.review.support.exception.ReviewException;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.Optional;
+
 
 @Service
 public class ReviewService {
@@ -19,10 +21,7 @@ public class ReviewService {
     }
 
     public String createRoomReview(RoomReviewCreated roomReviewCreated) {
-        // TODO: 예외처리 (
-        System.out.println("hi");
-        System.out.println("by:"+roomReviewCreated.getCommentBy());
-
+        // TODO: 예외처리
         Review review = Review.of(roomReviewCreated.getCommentBy(),roomReviewCreated.getCommentTo(),roomReviewCreated.getDescription(),roomReviewCreated.getScore());
         reviewRepository.save(review);
         return "RoomReview Created";
@@ -39,5 +38,41 @@ public class ReviewService {
         Review review = Review.of(customerReviewCreated.getCommentBy(),customerReviewCreated.getCommentTo(),customerReviewCreated.getDescription(),customerReviewCreated.getScore());
         reviewRepository.save(review);
         return "HostReview Created";
+    }
+
+    public String deleteRoomReview(Long id) {
+        Optional<Review> review = reviewRepository.findById(id);
+        return review.map(reviewSelected-> {
+            if(reviewSelected.getCommentTo().matches("R[0-9]*") && reviewSelected.getCommentBy().matches("C[0-9]*")){
+                reviewRepository.delete(reviewSelected);
+                return "RoomReview Deleted";
+            }else{
+                throw new ReviewException(ReviewError.WRONG_FORMAT);
+            }
+        }).orElseThrow(()->new ReviewException(ReviewError.ENTITY_NOT_FOUND));
+    }
+
+    public String deleteCustomerReview(Long id) {
+        Optional<Review> review = reviewRepository.findById(id);
+        return review.map(reviewSelected-> {
+            if(reviewSelected.getCommentTo().matches("C[0-9]*") && reviewSelected.getCommentBy().matches("H[0-9]*")){
+                reviewRepository.delete(reviewSelected);
+                return "CustomerReview Deleted";
+            }else{
+                throw new ReviewException(ReviewError.WRONG_FORMAT);
+            }
+        }).orElseThrow(()->new ReviewException(ReviewError.ENTITY_NOT_FOUND));
+    }
+
+    public String deleteHostReview(Long id) {
+        Optional<Review> review = reviewRepository.findById(id);
+        return review.map(reviewSelected-> {
+            if(reviewSelected.getCommentTo().matches("H[0-9]*") && reviewSelected.getCommentBy().matches("C[0-9]*")){
+                reviewRepository.delete(reviewSelected);
+                return "HostReview Deleted";
+            }else{
+                throw new ReviewException(ReviewError.WRONG_FORMAT);
+            }
+        }).orElseThrow(()->new ReviewException(ReviewError.ENTITY_NOT_FOUND));
     }
 }
