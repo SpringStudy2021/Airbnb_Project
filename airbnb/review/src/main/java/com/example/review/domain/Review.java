@@ -55,4 +55,12 @@ public class Review {
         System.out.println("DATE: "+review.getCommentDate());
         return review;
     }
+
+    public void update(
+            String description,
+            Double score
+    ){
+        this.description = description;
+        this.score = score;
+    }
 }

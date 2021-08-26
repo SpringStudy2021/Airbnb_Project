@@ -76,4 +76,31 @@ public class ReviewService {
             }
         }).orElseThrow(()->new ReviewException(ReviewError.ENTITY_NOT_FOUND));
     }
+
+    public String updateRoomReview(Long id, ReviewRequest request) {
+        Optional<Review> review = reviewRepository.findById(id);
+        return review.map(reviewSelected->{
+            reviewSelected.update(request.getDescription(),request.getScore());
+            reviewRepository.save(reviewSelected);
+            return "RoomReview Updated";
+        }).orElseThrow(()->new ReviewException(ReviewError.ENTITY_NOT_FOUND));
+    }
+
+    public String updateHostReview(Long id, ReviewRequest request) {
+        Optional<Review> review = reviewRepository.findById(id);
+        return review.map(reviewSelected->{
+            reviewSelected.update(request.getDescription(),request.getScore());
+            reviewRepository.save(reviewSelected);
+            return "HostReview Updated";
+        }).orElseThrow(()->new ReviewException(ReviewError.ENTITY_NOT_FOUND));
+    }
+
+    public String updateCustomerReview(Long id, ReviewRequest request) {
+        Optional<Review> review = reviewRepository.findById(id);
+        return review.map(reviewSelected->{
+            reviewSelected.update(request.getDescription(),request.getScore());
+            reviewRepository.save(reviewSelected);
+            return "CustomerReview Updated";
+        }).orElseThrow(()->new ReviewException(ReviewError.ENTITY_NOT_FOUND));
+    }
 }

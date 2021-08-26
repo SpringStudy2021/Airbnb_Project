@@ -65,4 +65,27 @@ public class ReviewController extends GlobalExceptionHandler {
         return new AirbnbReviewResponse(result);
     }
 
+    @PatchMapping("/room/{id}")
+    public AirbnbReviewResponse updateRoomReview(
+            @PathVariable(name = "id")Long id,
+            @RequestBody ReviewRequest request){
+        String result= reviewService.updateRoomReview(id,request);
+        return new AirbnbReviewResponse(result);
+    }
+
+    @PatchMapping("/host/{id}")
+    public AirbnbReviewResponse updateHostReview(
+            @PathVariable(name = "id")Long id,
+            @RequestBody ReviewRequest request){
+        String result= reviewService.updateHostReview(id,request);
+        return new AirbnbReviewResponse(result);
+    }
+
+    @PatchMapping("/customer/{id}")
+    public AirbnbReviewResponse updateCustomerReview(
+            @PathVariable(name = "id")Long id,
+            @RequestBody ReviewRequest request){
+        String result= reviewService.updateCustomerReview(id,request);
+        return new AirbnbReviewResponse(result);
+    }
 }
