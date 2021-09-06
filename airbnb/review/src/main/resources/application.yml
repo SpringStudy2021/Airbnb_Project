@@ -11,3 +11,11 @@ spring:
     show-sql: true
   jackson:
     property-naming-strategy: SNAKE_CASE
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: myGroup
+      enable-auto-commit: false
+      auto-offset-reset: latest
+    listener:
+      ack-mode: manual

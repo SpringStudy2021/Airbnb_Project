@@ -1,9 +1,6 @@
 package com.example.review.controller;
 
 import com.example.review.aggregate.ReviewService;
-import com.example.review.domain.event.CustomerReviewCreated;
-import com.example.review.domain.event.HostReviewCreated;
-import com.example.review.domain.event.RoomReviewCreated;
 import com.example.review.support.exception.GlobalExceptionHandler;
 import com.example.review.support.request.ReviewRequest;
 import com.example.review.support.response.AirbnbReviewResponse;
