@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/ROOM?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password: 12312541
+    password: cindia3704
   jpa:
     show-sql: true
   kafka:

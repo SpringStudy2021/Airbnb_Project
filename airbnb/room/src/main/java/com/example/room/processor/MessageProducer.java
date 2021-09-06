@@ -20,7 +20,7 @@ public class MessageProducer {
     public RoomDeleted sendMessage(String topic, RoomDeleted roomDeleted) {
         String json = dataFormat.objectToJson(roomDeleted);
         kafkaTemplate.send(topic, json);
-        System.out.println("kafka send Message = " + roomDeleted);
+        System.out.println("kafka send Message = " + roomDeleted.getId());
 
         return roomDeleted;
     }

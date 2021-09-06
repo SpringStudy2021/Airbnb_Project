@@ -11,6 +11,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,7 +25,8 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = "RoomDeleted")
-    public void confirmReserve(String kafkaMessage) {
+    public void confirmDelete(String kafkaMessage) {
+        System.out.println("kafka recieved Message = " + kafkaMessage);
         Map<Object, Object> map = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
         try{
@@ -35,11 +37,12 @@ public class KafkaConsumer {
             ex.printStackTrace();
         }
 
-        Long roomId = ((Number)map.get("roomId") ).longValue();
-        Optional<Review> reviewOptional = reviewRepository.findById( roomId);
-        if (reviewOptional.isPresent()) {
-            Review review = reviewOptional.get();
-            reviewRepository.delete(review);
+        Long roomId = ((Number)map.get("id") ).longValue();
+        List<Review> reviewOptional = reviewRepository.findReviewByCommentTo("R"+roomId);
+        if (reviewOptional.size()>0) {
+            for(int i=0;i<reviewOptional.size();i++){
+                reviewRepository.delete(reviewOptional.get(i));
+            }
         }
         else{
             log.info("roomId:"+ (Long)map.get("roomId") + "does not exists");
