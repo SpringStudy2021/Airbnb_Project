@@ -1,17 +1,15 @@
 package com.example.room.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.sun.istack.NotNull;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Getter
+@Setter
 @Builder
 public class Room {
     // dto
@@ -20,24 +18,24 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "roomName")
+    @Column(name = "room_name")
     @NotNull
-    private String roomName;
+    private String room_name;
 
     @Column(name = "address")
     @NotNull
     private String address;
 
-    @Column(name = "headCount")
-    private Integer headCount;
+    @Column(name = "head_count")
+    private Integer head_count;
 
     @Column(name = "price")
     @NotNull
     private Long price;
 
-    @Column(name = "imgUrl")
-    private String imgUrl;
+    @Column(name = "img_url")
+    private String img_url;
 
-    @Column(name = "lastAction")
-    private String lastAction;
+    @Column(name = "last_action")
+    private String last_action;
 }

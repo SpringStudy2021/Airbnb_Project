@@ -1,12 +1,11 @@
 package com.example.room;
 
-import com.example.room.config.kafka.RoomBinder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableBinding(RoomBinder.class)
+@EnableJpaAuditing
 public class RoomApplication {
 
     public static void main(String[] args) {

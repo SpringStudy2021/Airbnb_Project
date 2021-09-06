@@ -9,6 +9,7 @@ import com.example.room.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,38 +21,46 @@ public class RoomService {
     private final MessageProducer messageProducer;
 
     // RoomCommand 필요 -> room이 dto -> command라고 생각하자
-    public void createRoom(RoomCreated roomCreated) {
+    public Room createRoom(RoomCreated roomCreated) {
         Room room = Room.builder().
-                id(roomCreated.getId()).
-                roomName(roomCreated.getRoomName()).
+//                id(roomCreated.getId()).
+                room_name(roomCreated.getRoom_name()).
                 address(roomCreated.getAddress()).
-                headCount(roomCreated.getHeadCount()).
+                head_count(roomCreated.getHead_count()).
                 price(roomCreated.getPrice()).
-                imgUrl(roomCreated.getImgUrl()).
-                lastAction(roomCreated.getLastAction()).
+                img_url(roomCreated.getImg_url()).
+                last_action(roomCreated.getLast_action()).
                 build();
-        roomRepository.save(room);
+        return roomRepository.save(room);
     }
 
-    public void updateRoom(RoomUpdated roomUpdated) {
-        Room room = Room.builder().
-                id(roomUpdated.getId()).
-                roomName(roomUpdated.getRoomName()).
-                address(roomUpdated.getAddress()).
-                headCount(roomUpdated.getHeadCount()).
-                price(roomUpdated.getPrice()).
-                imgUrl(roomUpdated.getImgUrl()).
-                lastAction(roomUpdated.getLastAction()).
-                build();
-        roomRepository.save(room);
+    @Transactional
+    public Optional<Room> updateRoom(Long Id, RoomUpdated roomUpdated) {
+        Optional<Room> room = roomRepository.findById(Id);
+
+        room.ifPresent( roomSelected -> {
+                    roomSelected.setRoom_name(roomUpdated.getRoom_name());
+                    roomSelected.setAddress(roomUpdated.getAddress());
+                    roomSelected.setHead_count(roomUpdated.getHead_count());
+                    roomSelected.setPrice(roomUpdated.getPrice());
+                    roomSelected.setImg_url(roomUpdated.getImg_url());
+                    roomSelected.setLast_action(roomUpdated.getLast_action());
+
+                    roomRepository.save(roomSelected);
+                });
+        return room;
     }
 
-    public void deleteRoom(Long id) {
+    @Transactional
+    public Optional<Room> deleteRoom(Long id) {
         RoomDeleted roomDeleted = RoomDeleted.builder().id(id).build();
-        Room room = roomRepository.getById(roomDeleted.getId());
-        roomRepository.delete(room);
-        // 리뷰 삭제해주는 이벤트 생성필요
-        messageProducer.sendDeleteMessage(roomDeleted);
+        Optional<Room> room = roomRepository.findById(roomDeleted.getId());
+        room.ifPresent( selectRoom -> {
+                roomRepository.delete(selectRoom);
+                // 리뷰 삭제해주는 이벤트 생성필요
+                messageProducer.sendMessage("RoomDeleted", roomDeleted);
+        });
+        return room;
     }
 
     public List<Room> getRoomList() {
