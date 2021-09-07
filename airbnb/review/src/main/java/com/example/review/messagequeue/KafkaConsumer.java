@@ -25,8 +25,8 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = "RoomDeleted")
-    public void confirmDelete(String kafkaMessage) {
-        System.out.println("kafka recieved Message = " + kafkaMessage);
+    public void confirmDeleteRoom(String kafkaMessage) {
+        log.info("kafka recieved Message = " + kafkaMessage);
         Map<Object, Object> map = new HashMap<>();
         ObjectMapper mapper = new ObjectMapper();
         try{
@@ -38,14 +38,13 @@ public class KafkaConsumer {
         }
 
         Long roomId = ((Number)map.get("id") ).longValue();
-        List<Review> reviewOptional = reviewRepository.findReviewByCommentTo("R"+roomId);
-        if (reviewOptional.size()>0) {
-            for(int i=0;i<reviewOptional.size();i++){
-                reviewRepository.delete(reviewOptional.get(i));
-            }
-        }
-        else{
+        List<Review> deleteReviewList = reviewRepository.findReviewByCommentTo("R"+roomId);
+        if(deleteReviewList.isEmpty()){
             log.info("roomId:"+ (Long)map.get("roomId") + "does not exists");
+        }else {
+            deleteReviewList.stream().forEach(review -> {
+                reviewRepository.delete(review);
+            });
         }
     }
 }
