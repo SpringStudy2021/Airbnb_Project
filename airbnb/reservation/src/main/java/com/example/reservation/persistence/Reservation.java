@@ -1,34 +1,49 @@
 package com.example.reservation.persistence;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 
-@Entity
+
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
-public class Reservation {
+@Data
+@Entity
+public class Reservation extends BaseTimeEntity{
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private int rvId;
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long rvId;
 
-    private int roomId;
+    @Column(nullable = false)
+    private Long roomId;
 
-    private String status;
+    private Long payId;
 
-    private int payId;
+    @Column(nullable = false)
+    private Integer numOfPeople;
 
-//    public Reservation(int rvId, int roomId,String status, int payId){
-//        this.rvId = rvId;
-//        this.roomId = roomId;
-//        this.status = status;
-//        this.payId = payId;
-//    }
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+// 성능상 Enumerated 어노테이션의 사용은 좋지않음
+//  추후에 통합할때  EnumMapperFactory를 사용하여
+
+    private Integer price;
+
+    @Column(nullable = false, updatable = true)
+    private LocalDate startDate;
+//  예약날짜(시작)
+
+    @Column(nullable = false, updatable = true)
+    private LocalDate endDate;
+//  예약날짜(종료)
+
 }
