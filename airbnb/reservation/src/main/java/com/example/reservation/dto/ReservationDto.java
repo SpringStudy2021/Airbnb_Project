@@ -15,7 +15,10 @@ public class ReservationDto {
 
     private Long roomId;
 
+
     private Status status;
+
+    private Long payId;
 
     private Integer numOfPeople;
 

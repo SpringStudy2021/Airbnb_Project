@@ -4,6 +4,7 @@ import com.example.reservation.dto.ReservationDto;
 import com.example.reservation.event.ReservationCancelled;
 import com.example.reservation.event.ReservationCreated;
 import com.example.reservation.messagequeue.KafkaProducer;
+import com.example.reservation.external.PaymentApiClient;
 import com.example.reservation.persistence.Reservation;
 import com.example.reservation.persistence.ReservationRepository;
 import com.example.reservation.vo.ResponseReservation;
@@ -22,32 +23,44 @@ public class ReservationServiceImpl implements ReservationServiceInterface {
 
 
     private final ReservationRepository reservationRepository;
+  
     private final KafkaProducer kafkaProducer;
     //    payment 마이크로서비스에 대한 의존성 추가
-
+  
+    private final PaymentApiClient paymentApiClient;
 
     @Autowired
-    public ReservationServiceImpl(ReservationRepository reservationRepository , KafkaProducer kafkaProducer) {
+    public ReservationServiceImpl(ReservationRepository reservationRepository , KafkaProducer kafkaProducer
+                                 ,PaymentApiClient paymentApiClient) {
         this.reservationRepository = reservationRepository;
         this.kafkaProducer = kafkaProducer;
-    }
+         this.paymentApiClient = paymentApiClient;
+//    payment 마이크로서비스에 대한 의존성 추가
+
 
     @Override
     @Transactional
     public ResponseReservation reserve(ReservationDto reservationDto) {
 
-        ReservationCreated reservationCreated = new ModelMapper().map(reservationDto,ReservationCreated.class);
-
-        //        reservationCreated 이벤트를 발행하여 해당 이벤트를 통해 동기호출을 한다.
-        //        동기호출을 통해 정상적으로 결제승인메소드가 호출되었음을 응답 받으면 아래 코드들 실행
-
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         Reservation reservation = mapper.map(reservationDto,Reservation.class);
 
-        reservationRepository.save(reservation);
-        log.debug(reservation.toString());
-        ResponseReservation responseReservation = new ModelMapper().map(reservation,ResponseReservation.class);
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        ReservationCreated reservationCreated = mapper.map(savedReservation,ReservationCreated.class);
+
+        Long responsePayId = paymentApiClient.approvePayment(reservationCreated);
+        //        reservationCreated 이벤트를 발행하여 해당 이벤트를 통해 동기호출을 한다.
+
+        savedReservation.setPayId(responsePayId);
+        //        메소드에 대한 응답을 받고 PaymentId를 예약에 저장한다.
+
+        log.debug(savedReservation.toString());
+
+        reservationRepository.save(savedReservation);
+
+        ResponseReservation responseReservation = new ModelMapper().map(savedReservation,ResponseReservation.class);
 
         return  responseReservation;
 
