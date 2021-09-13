@@ -27,10 +27,6 @@ public class Reservation extends BaseTimeEntity{
 
     private Long payId;
 
-    public enum Status{
-        RESERVING, RESERVED;
-    }
-
     @Column(nullable = false)
     private Integer numOfPeople;
 

@@ -2,12 +2,10 @@ package com.example.reservation.event;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class ReservationCreated {
-    
+public class ReservationCancelled {
     private Long rvId;
+    private Long payId;
     private Integer price;
 
 }
