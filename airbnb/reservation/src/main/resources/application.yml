@@ -21,3 +21,9 @@ spring:
     generate-ddl: true
     ddl-auto: create
     show-sql: true
+
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false

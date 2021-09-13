@@ -1,6 +1,7 @@
 package com.example.reservation.persistence;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -11,6 +12,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 public class Reservation {
 
     @Id
@@ -21,8 +23,9 @@ public class Reservation {
     @Column(nullable = false)
     private int roomId;
 
-    @Column(nullable = false)
-    private String status;
+    private enum Status {
+        RESERVING, RESERVED;
+    }
 
     private int payId;
 // 없어도 될듯?!
