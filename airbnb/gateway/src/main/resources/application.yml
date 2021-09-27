@@ -15,6 +15,14 @@ spring:
           uri: lb://RESERVATION-SERVICE
           predicates:
             - Path=/reservation-service/**
+        - id: room-service
+            uri: lb://ROOM-SERVICE
+            predicates:
+              - Path=/room-service/**
+        - id: review-service
+            uri: lb://REVIEW-SERVICE
+            predicates:
+              - Path=/review-service/**
 
 
 eureka:
